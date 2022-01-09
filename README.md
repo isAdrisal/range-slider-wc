@@ -15,15 +15,13 @@ $ yarn add range-slider-wc
 then import into your project:
 
 ```js
-import 'lazyvids';
+import rangeSlider from 'range-slider-wc';
 ```
 
 Or, import directly into your HTML as a module script:
 
 ```html
-<script type="module">
-  import rangeSlider from 'https://cdn.skypack.dev/range-slider-wc';
-</script>
+<script type="module" src="https://cdn.skypack.dev/range-slider-wc"></script>
 ```
 
 ## Usage
