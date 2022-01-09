@@ -80,7 +80,9 @@ slider.addEventListener('input', (evt) => console.log('Input', evt.detail));
 slider.addEventListener('change', (evt) => console.log('Change', evt.detail));
 ```
 
-In all three events, `Event.detail` returns an object with the following interface:
+> Note: as with the native `input[type="range"]`, `input` events are not fired when `valueMin` or `valueMax` are set via the JS API. `change` events will be fired in those cases as expected.
+
+For all three event types, `Event.detail` returns an object with the following interface:
 
 ```js
 {
