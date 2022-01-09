@@ -1,6 +1,6 @@
 # range-slider-wc
 
-A dependency-free, two-thumb range slider input built with Web Components.
+A dependency-free, two-thumb range input slider built with Web Components.
 
 View demo on (Code Pen)[https://codepen.io/isadrisal/pen/YzrQxqr].
 
