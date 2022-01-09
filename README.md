@@ -38,10 +38,10 @@ To use, simply include the custom element as you would a regular HTML tag:
 
 ### API
 
-This component replicates many of the same APIs as the HTML `[type="range"]` `input` element:
+This component replicates many of the same APIs as the HTML `input[type="range"]` element:
 
 ```js
-const slider = document.querySelector('range-input');
+const slider = document.querySelector('range-slider');
 
 // Disable or enable the slider
 slider.disabled = true;
@@ -65,10 +65,10 @@ slider.ready; // boolean
 
 ### Events
 
-The slider emits three types of events, that use the standard `EventListener` interface:
+The slider emits three types of events that use the standard `EventListener` interface:
 
 ```js
-const slider = document.querySelector('range-input');
+const slider = document.querySelector('range-slider');
 
 // Ready – fired when the slider is initialised
 slider.addEventListener('ready', (evt) => console.log('Slider ready', evt.detail));
@@ -82,19 +82,19 @@ slider.addEventListener('change', (evt) => console.log('Change', evt.detail));
 
 In all three events, `Event.detail` returns an object with the following interface:
 
-```json
+```js
 {
   min: Number,
   max: Number,
   step: Number,
   valueMin: Number,
-  valueMax: Number
+  valueMax: Number,
 }
 ```
 
 ## Styling
 
-By default, the slider attempts to replicate the default Google Chrome range input styling. CSS variables make it easy to override these default styles to match your preferred design.
+By default, the slider attempts to replicate the Google Chrome range input styling. CSS variables make it easy to override these default styles to match your preferred design.
 
 An example stylesheet is shown below with default values:
 
