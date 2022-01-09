@@ -1,0 +1,18 @@
+# Source
+build.mjs
+src
+
+# Node
+node_modules
+
+# Config
+.editorconfig
+.gitignore
+.gitattributes
+.nvmrc
+.prettierrc.json
+.stylelintrc.json
+.vscode
+
+# Logs
+*.log

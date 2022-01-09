@@ -1,0 +1,194 @@
+:host {
+  display: inline-block;
+  margin: 2px;
+  width: 129px;
+  -webkit-tap-highlight-color: transparent;
+  --track-height: 0.5rem;
+  --thumb-diameter: 1rem;
+  --track-color: rgb(239, 239, 239);
+  --track-color-active: rgb(229, 229, 229);
+  --track-color-alt: var(--track-color);
+  --track-color-alt-focus: var(--track-color-active);
+  --track-color-disabled: rgb(250, 250, 250);
+  --progress-color: rgb(0, 117, 255);
+  --progress-color-active: rgb(0, 92, 200);
+  --progress-color-disabled: rgb(203, 203, 203);
+  --thumb-color: rgb(0, 117, 255);
+  --thumb-color-active: rgb(0, 92, 200);
+  --thumb-color-disabled: rgb(203, 203, 203);
+  --thumb-halo-color: rgba(0, 92, 200, 0.1);
+  --thumb-halo-size: 0.425rem;
+  --focus-outline: 1px solid black;
+  --focus-outline-offset: 0px;
+  --transition-duration: 100ms;
+  --transition-timing-function: ease-in;
+  --cursor: pointer;
+  --thumb-pointer-events: all;
+}
+
+:host([disabled]) {
+  --cursor: default;
+  pointer-events: none;
+  --thumb-pointer-events: none;
+  --track-color: var(--track-color-disabled);
+  --progress-color: var(--progress-color-disabled);
+  --thumb-color: var(--thumb-color-disabled);
+}
+
+@mixin track($fill: 0) {
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  height: var(--track-height);
+  background: var(--track-color);
+  border-radius: calc(var(--track-height) / 2);
+
+  @if $fill == 1 {
+    background: linear-gradient(var(--progress-color), var(--progress-color))
+      0 /
+      var(--fill-width)
+      100%
+      no-repeat
+      var(--track-color);
+  }
+}
+
+@mixin fill() {
+  height: var(--track-height);
+  background: var(--progress-color);
+  border-radius: calc(var(--track-height) / 2);
+}
+
+@mixin track-active() {
+  [part="min-input"] {
+    --progress-color: var(--track-color-active);
+  }
+
+  [part="max-input"] {
+    --track-color: var(--track-color-active);
+    --progress-color: var(--progress-color-active);
+  }
+}
+
+@mixin thumb() {
+  box-sizing: border-box;
+  border: none;
+  width: var(--thumb-diameter);
+  height: var(--thumb-diameter);
+  border-radius: 50%;
+  background: var(--thumb-color);
+  box-shadow: var(--thumb-shadow);
+  transition: all var(--transition-duration) var(--transition-timing-function);
+  pointer-events: var(--thumb-pointer-events);
+}
+
+@mixin thumb-active() {
+  --thumb-color: var(--thumb-color-active);
+  --thumb-shadow: 0px 0px 0px var(--thumb-halo-size) var(--thumb-halo-color);
+}
+
+[part="container"] {
+  display: grid;
+  grid-template: "range-slider-container";
+  grid-template-columns: 1fr;
+  place-items: center;
+  place-content: center;
+  width: 100%;
+  cursor: var(--cursor);
+
+  @media (hover: hover) {
+    &:hover {
+      @include track-active;
+    }
+  }
+
+  &:focus-within {
+    @include track-active;
+  }
+}
+
+input[type="range"] {
+  &,
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+
+  grid-area: range-slider-container;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: var(--thumb-diameter);
+  max-width: 100%;
+  background: transparent;
+  font: 1em/1 arial, sans-serif;
+  outline: none;
+  cursor: var(--cursor);
+  pointer-events: none;
+
+  &:focus:not(:hover) {
+    @media (hover: hover) {
+      outline: var(--focus-outline);
+      outline-offset: var(--outline-offset);
+    }
+  }
+
+  --range: calc(var(--max) - var(--min));
+  --ratio: calc((var(--value) - var(--min)) / var(--range));
+  --fill-width: calc(0.5 * var(--thumb-diameter) + var(--ratio) * (100% - var(--thumb-diameter)));
+
+  &::-webkit-slider-runnable-track {
+    @include track(1);
+  }
+
+  &::-moz-range-track {
+    @include track;
+  }
+
+  &::-moz-range-progress {
+    @include fill;
+  }
+
+  &[part="min-input"]::-moz-range-progress {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  &::-webkit-slider-thumb {
+    margin-top: calc(0.5 * (var(--track-height) - var(--thumb-diameter)));
+    @media (hover: hover) {
+      &:hover {
+        @include thumb-active;
+      }
+    }
+    @include thumb;
+  }
+
+  &::-moz-range-thumb {
+    @media (hover: hover) {
+      &:hover {
+        @include thumb-active;
+      }
+    }
+    @include thumb;
+  }
+
+  &:focus {
+    &::-webkit-slider-thumb {
+      @include thumb-active;
+    }
+
+    &::-moz-range-thumb {
+      @include thumb-active;
+    }
+  }
+
+  &[part="min-input"] {
+    z-index: 2;
+    --progress-color: var(--track-color-alt);
+    --track-color: transparent;
+  }
+
+  &[part="max-input"][data-at-min="true"] {
+    z-index: 2;
+  }
+}
