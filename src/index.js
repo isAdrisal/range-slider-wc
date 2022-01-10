@@ -270,8 +270,6 @@ export default customElements.define(
           valueMax: isMinInput ? this.valueMax : target.valueAsNumber,
         };
         this.dispatchEvent(new CustomEvent('input', {detail}));
-
-        isMinInput ? (this.valueMin = target.valueAsNumber) : (this.valueMax = target.valueAsNumber);
       };
 
       this._handlePointerDown = (evt) => {
@@ -285,6 +283,8 @@ export default customElements.define(
         this.blur();
         this._minInput.blur();
         this._maxInput.blur();
+        this.valueMin = this._minInput.valueAsNumber;
+        this.valueMax = this._maxInput.valueAsNumber;
       };
     }
 
