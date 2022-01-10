@@ -34,6 +34,12 @@ To use, simply include the custom element as you would a regular HTML tag:
 <range-slider class="example" min="0" max="100" step="1"></range-slider>
 ```
 
+Initial values for the thumb positions (`valueMin` and `valueMax`) can be set by including those attributes in the HTML:
+
+```html
+<range-slider class="example" min="0" max="100" step="1" valueMin="10" valueMax="90"></range-slider>
+```
+
 ### API
 
 This component replicates many of the same APIs as the HTML `input[type="range"]` element:
