@@ -2,11 +2,11 @@
 
 A dependency-free, two-thumb range input slider built with Web Components.
 
-View demo on (Code Pen)[https://codepen.io/isadrisal/pen/YzrQxqr].
+View demo on [Code Pen](https://codepen.io/isadrisal/pen/YzrQxqr).
 
 ## Installation
 
-If using a bundler like Webpack or ESBuiild, install using your favourite package manager:
+If using a bundler like Webpack or ESBuild, install using your favourite package manager:
 
 ```shell
 $ yarn add range-slider-wc
