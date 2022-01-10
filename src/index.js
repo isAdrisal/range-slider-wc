@@ -147,6 +147,7 @@ export default customElements.define(
         this._container = this.shadowRoot.querySelector('[part="container"]');
         this._minInput = this.shadowRoot.querySelector('[part="min-input"]');
         this._maxInput = this.shadowRoot.querySelector('[part="max-input"]');
+        this._inputs = [this._minInput, this._maxInput];
 
         const minAttr = this.getAttribute('min');
         const maxAttr = this.getAttribute('max');
@@ -177,21 +178,17 @@ export default customElements.define(
         const setDisabled = disabledAttr === '' || disabledAttr === 'true';
         this.disabled = setDisabled;
 
-        this._setInputProperty(this._minInput, 'min', this.min);
-        this._setInputProperty(this._minInput, 'max', this.max);
-        this._setInputProperty(this._minInput, 'step', this.step);
-        this._setInputProperty(this._minInput, 'value', this.valueMin);
-        this._setInputProperty(this._maxInput, 'min', this.min);
-        this._setInputProperty(this._maxInput, 'max', this.max);
-        this._setInputProperty(this._maxInput, 'step', this.step);
-        this._setInputProperty(this._maxInput, 'value', this.valueMax);
+        this._inputs.forEach((input, index) => {
+          this._setInputProperty(input, 'min', this.min);
+          this._setInputProperty(input, 'max', this.max);
+          this._setInputProperty(input, 'step', this.step);
+          this._setInputProperty(input, 'value', index === 0 ? this.valueMin : this.valueMax);
 
-        this._minInput.addEventListener('change', this._handleChange);
-        this._maxInput.addEventListener('change', this._handleChange);
-        this._minInput.addEventListener('input', this._handleChange);
-        this._maxInput.addEventListener('input', this._handleChange);
-        this._minInput.addEventListener('touchstart', this._handlePointerDown);
-        this._maxInput.addEventListener('touchstart', this._handlePointerDown);
+          input.addEventListener('change', this._handleChange);
+          input.addEventListener('input', this._handleChange);
+          input.addEventListener('touchstart', this._handlePointerDown);
+        });
+
         this._container.addEventListener('mousedown', this._handleSyntheticTrackClick);
         this._container.addEventListener('click', this._handleSyntheticTrackClick);
         this.addEventListener('mouseup', this._handlePointerUp);
@@ -247,6 +244,7 @@ export default customElements.define(
 
       this._syntheticClickHandled = false;
       this._handleSyntheticTrackClick = (evt) => {
+        if (evt.button !== 0) return;
         evt.stopPropagation();
         if (evt.type === 'click' && this._syntheticClickHandled) {
           this._syntheticClickHandled = false;
@@ -272,8 +270,6 @@ export default customElements.define(
           valueMax: isMinInput ? this.valueMax : target.valueAsNumber,
         };
         this.dispatchEvent(new CustomEvent('input', {detail}));
-
-        isMinInput ? (this.valueMin = target.valueAsNumber) : (this.valueMax = target.valueAsNumber);
       };
 
       this._handlePointerDown = (evt) => {
@@ -287,6 +283,8 @@ export default customElements.define(
         this.blur();
         this._minInput.blur();
         this._maxInput.blur();
+        this.valueMin = this._minInput.valueAsNumber;
+        this.valueMax = this._maxInput.valueAsNumber;
       };
     }
 
