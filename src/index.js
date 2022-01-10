@@ -244,6 +244,7 @@ export default customElements.define(
 
       this._syntheticClickHandled = false;
       this._handleSyntheticTrackClick = (evt) => {
+        if (evt.button !== 0) return;
         evt.stopPropagation();
         if (evt.type === 'click' && this._syntheticClickHandled) {
           this._syntheticClickHandled = false;
