@@ -10,6 +10,3 @@ lerna-debug.log*
 # npm/yarn
 node_modules
 
-# dev
-index.html
-
