@@ -1,4 +1,4 @@
-# Logs
+# logs
 logs
 *.log
 npm-debug.log*
@@ -9,4 +9,7 @@ lerna-debug.log*
 
 # npm/yarn
 node_modules
+
+# dev
+index.html
 

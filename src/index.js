@@ -136,7 +136,7 @@ export default customElements.define(
 
       const template = document.createElement('template');
       template.innerHTML =
-        '<div part="container"><input part="min-input" type="range"><input part="max-input" type="range"></div>';
+        '<div part="container"><input type="range" data-input="min"><input type="range" data-input="max"></div>';
 
       const style = document.createElement('style');
       style.innerHTML = compiledStyles;
@@ -145,8 +145,8 @@ export default customElements.define(
 
       this._init = () => {
         this._container = this.shadowRoot.querySelector('[part="container"]');
-        this._minInput = this.shadowRoot.querySelector('[part="min-input"]');
-        this._maxInput = this.shadowRoot.querySelector('[part="max-input"]');
+        this._minInput = this.shadowRoot.querySelector('[data-input="min"]');
+        this._maxInput = this.shadowRoot.querySelector('[data-input="max"]');
         this._inputs = [this._minInput, this._maxInput];
 
         const minAttr = this.getAttribute('min');
@@ -214,7 +214,7 @@ export default customElements.define(
         const styleValue = property === 'value' ? input.valueAsNumber : value;
         input.style.setProperty(`--${property}`, styleValue);
 
-        if (input.part.value === 'max-input' && property === 'value') {
+        if (input.dataset.input === 'max' && property === 'value') {
           input.dataset.atMin = value === this.min;
         }
       };
@@ -222,7 +222,7 @@ export default customElements.define(
       this._handleChange = (evt) => {
         evt.stopPropagation();
         const target = evt.target;
-        const isMinInput = target.part.value === 'min-input';
+        const isMinInput = target.dataset.input === 'min';
         const inputValue = target.valueAsNumber;
         const newValue = isMinInput ? Math.min(inputValue, this.valueMax) : Math.max(inputValue, this.valueMin);
 

@@ -60,11 +60,11 @@
 }
 
 @mixin track-active() {
-  [part="min-input"] {
+  [data-input="min"] {
     --progress-color: var(--track-color-active);
   }
 
-  [part="max-input"] {
+  [data-input="max"] {
     --track-color: var(--track-color-active);
     --progress-color: var(--progress-color-active);
   }
@@ -89,10 +89,6 @@
 
 [part="container"] {
   display: grid;
-  grid-template: "range-slider-container";
-  grid-template-columns: 1fr;
-  place-items: center;
-  place-content: center;
   width: 100%;
   cursor: var(--cursor);
 
@@ -113,7 +109,7 @@ input[type="range"] {
     -webkit-appearance: none;
   }
 
-  grid-area: range-slider-container;
+  grid-area: 1 / 1;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -148,7 +144,7 @@ input[type="range"] {
     @include fill;
   }
 
-  &[part="min-input"]::-moz-range-progress {
+  &[data-input="min"]::-moz-range-progress {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
   }
@@ -182,13 +178,13 @@ input[type="range"] {
     }
   }
 
-  &[part="min-input"] {
+  &[data-input="min"] {
     z-index: 2;
     --progress-color: var(--track-color-alt);
     --track-color: transparent;
   }
 
-  &[part="max-input"][data-at-min="true"] {
+  &[data-input="max"][data-at-min="true"] {
     z-index: 2;
   }
 }
