@@ -24,6 +24,8 @@
     "chalk": "^5.0.0",
     "esbuild": "^0.14.11",
     "esbuild-plugin-inline-import": "^1.0.1",
+    "postcss": "^8.4.5",
+    "postcss-variable-compress": "^0.2.5",
     "sass": "^1.47.0"
   }
 }

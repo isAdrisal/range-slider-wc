@@ -1,6 +1,8 @@
 import esbuild from 'esbuild';
 import inlineImportPlugin from 'esbuild-plugin-inline-import';
 import sass from 'sass';
+import postcss from 'postcss';
+import postcssVariableCompress from 'postcss-variable-compress';
 import chalk from 'chalk';
 
 const mode = process.argv.find((arg) => arg.includes('--mode'))?.split('=')[1];
@@ -8,8 +10,16 @@ const mode = process.argv.find((arg) => arg.includes('--mode'))?.split('=')[1];
 const plugins = [
   inlineImportPlugin({
     filter: /^sass:/,
-    transform: (contents, args) => {
-      const result = sass.compile(args.path, {style: 'compressed'});
+    transform: async (contents, args) => {
+      const compiled = sass.compile(args.path, {style: 'compressed'});
+      const output = compiled.css;
+
+      if (mode === 'dev') {
+        return output.css;
+      }
+
+      const postcssPlugins = [postcssVariableCompress([(name) => !name.includes('_')])];
+      const result = await postcss(postcssPlugins).process(output, {from: undefined});
       return result.css;
     },
   }),
