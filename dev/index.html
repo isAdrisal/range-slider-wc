@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module" src="index.js"></script>
+  <style>
+    /**
+ * Override styles with custom properties
+ */
+    .example {
+      /*   display: inline-block; */
+      /*   margin: 2px; */
+      /*   width: 129px; */
+      /*   --track-height: 1rem; */
+      /*   --thumb-diameter: 1rem; */
+      /*   --track-color: lightcoral; */
+      /*   --track-color-active: rgb(229, 229, 229); */
+      /*   --track-color-disabled: rgb(250, 250, 250); */
+      /*   --progress-color: rgb(0, 117, 255); */
+      /*   --progress-color-active: rgb(0, 92, 200); */
+      /*   --progress-color-disabled: rgb(203, 203, 203); */
+      /*   --thumb-color: rgb(0, 117, 255); */
+      /*   --thumb-color-active: rgb(0, 92, 200); */
+      /*   --thumb-color-disabled: rgb(203, 203, 203); */
+      /*   --thumb-halo-color: rgba(0, 92, 200, 0.1); */
+      /*   --thumb-halo-size: 2rem; */
+      /*   --focus-outline: 1px solid black; */
+      /*   --focus-outline-offset: 0px; */
+      /*   --transition-duration: 100ms; */
+      /*   --transition-timing-function: ease-in; */
+    }
+
+    /*
+ * Internally, slider width is set to 100% of its container. If the
+ * width of range-slider is increased, slider will fill the width.
+ * This matches behaviour of native input[type="range"].
+ */
+    .example {
+      width: 100%;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 1rem;
+      background: hsl(0, 0%, 96%);
+      font-family: sans-serif;
+    }
+
+    .wrapper {
+      width: 24rem;
+      max-width: 100%;
+      background: white;
+      padding: 2rem;
+      border-radius: 2ch;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <h1>Custom Element Range Slider</h1>
+    <!--
+    Just a single custom element is required in the markup.
+  -->
+    <range-slider class="example" min="0" max="100" step="1"></range-slider>
+    <div>
+      <p>onInput Min: <span id="oninputmin"></span></p>
+      <p>onInput Max: <span id="oninputmax"></span></p>
+      <p>onChange Min: <span id="onchangemin"></span></p>
+      <p>onChange Max: <span id="onchangemax"></span></p>
+      <p><button id="toggle" data-state="disable">disable</button></p>
+    </div>
+  </div>
+  <script>
+    /**
+     * This script block updates the displayed values when user interacts
+     * with the slider. Give it a go!
+     */
+    const rangeSlider = document.querySelector('range-slider');
+    const inputMin = document.querySelector('#oninputmin');
+    const inputMax = document.querySelector('#oninputmax');
+    const changeMin = document.querySelector('#onchangemin');
+    const changeMax = document.querySelector('#onchangemax');
+    rangeSlider.addEventListener('ready', (evt) => {
+      const {
+        min,
+        max
+      } = evt.detail;
+      inputMin.textContent = min;
+      inputMax.textContent = max;
+      changeMin.textContent = min;
+      changeMax.textContent = max;
+    });
+    rangeSlider.addEventListener('input', (evt) => {
+      const {
+        valueMin,
+        valueMax
+      } = evt.detail;
+      inputMin.textContent = valueMin;
+      inputMax.textContent = valueMax;
+    });
+    rangeSlider.addEventListener('change', (evt) => {
+      const {
+        valueMin,
+        valueMax
+      } = evt.detail;
+      changeMin.textContent = valueMin;
+      changeMax.textContent = valueMax;
+    });
+    const disableBtn = document.querySelector('#toggle');
+    disableBtn.addEventListener('click', (evt) => {
+      const target = evt.target;
+      const state = target.dataset.state;
+      const setDisable = state === 'disable';
+      const newState = setDisable ? 'enable' : 'disable';
+      rangeSlider.disabled = setDisable;
+      target.dataset.state = newState;
+      target.textContent = newState;
+    });
+  </script>
+</body>
+
+</html>
