@@ -27,7 +27,7 @@ const plugins = [
 
 const config = {
   entryPoints: ['./src/index.js'],
-  outdir: mode === 'dev' ? './dev' : './dist/',
+  outdir: mode === 'dev' ? './dev' : './dist',
   bundle: true,
   format: 'esm',
   target: 'es6',
