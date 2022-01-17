@@ -89,17 +89,7 @@ export default customElements.define(
       this.midpoint = (this.valueMax - this.valueMin) / 2 + this.valueMin;
 
       if (this.ready) {
-        this.dispatchEvent(
-          new CustomEvent('change', {
-            detail: {
-              min: this.min,
-              max: this.max,
-              step: this.step,
-              valueMin: this.valueMin,
-              valueMax: this.valueMax,
-            },
-          })
-        );
+        this.dispatchEvent(new CustomEvent('change', {detail: this.current}));
       }
     }
 
@@ -119,17 +109,7 @@ export default customElements.define(
       this.midpoint = (this.valueMax - this.valueMin) / 2 + this.valueMin;
 
       if (this.ready) {
-        this.dispatchEvent(
-          new CustomEvent('change', {
-            detail: {
-              min: this.min,
-              max: this.max,
-              step: this.step,
-              valueMin: this.valueMin,
-              valueMax: this.valueMax,
-            },
-          })
-        );
+        this.dispatchEvent(new CustomEvent('change', {detail: this.current}));
       }
     }
 
@@ -139,6 +119,16 @@ export default customElements.define(
 
     set midpoint(value) {
       this.#midpoint = Number(value);
+    }
+
+    get current() {
+      return {
+        min: this.min,
+        max: this.max,
+        step: this.step,
+        valueMin: this.valueMin,
+        valueMax: this.valueMax,
+      };
     }
 
     constructor() {
@@ -221,17 +211,7 @@ export default customElements.define(
       this.addEventListener('touchend', this.#handlePointerUp);
 
       this.ready = true;
-      this.dispatchEvent(
-        new CustomEvent('ready', {
-          detail: {
-            min: this.min,
-            max: this.max,
-            step: this.step,
-            valueMin: this.valueMin,
-            valueMax: this.valueMax,
-          },
-        })
-      );
+      this.dispatchEvent(new CustomEvent('ready', {detail: this.current}));
     };
 
     #setInputProperty = (input, property, value) => {
