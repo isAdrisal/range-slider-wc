@@ -18,7 +18,8 @@
     "build": "yarn clean && yarn bundle",
     "deploy": "yarn build && yarn publish",
     "bundle": "node build.mjs",
-    "clean": "rm -rf dist/"
+    "clean": "rm -rf dist/",
+    "postinstall": "npx browserslist@latest --update-db"
   },
   "devDependencies": {
     "chalk": "^5.0.0",
@@ -27,5 +28,6 @@
     "postcss": "^8.4.5",
     "postcss-variable-compress": "^0.2.5",
     "sass": "^1.47.0"
-  }
+  },
+  "dependencies": {}
 }
