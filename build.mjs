@@ -16,7 +16,7 @@ const plugins = [
       const output = compiled.css;
 
       if (devMode) {
-        return output.css;
+        return output;
       }
 
       const postcssPlugins = [postcssVariableCompress([(name) => !name.includes('_')])];
