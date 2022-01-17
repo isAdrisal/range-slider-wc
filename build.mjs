@@ -6,6 +6,7 @@ import postcssVariableCompress from 'postcss-variable-compress';
 import chalk from 'chalk';
 
 const mode = process.argv.find((arg) => arg.includes('--mode'))?.split('=')[1];
+const devMode = mode === 'dev';
 
 const plugins = [
   inlineImportPlugin({
@@ -14,7 +15,7 @@ const plugins = [
       const compiled = sass.compile(args.path, {style: 'compressed'});
       const output = compiled.css;
 
-      if (mode === 'dev') {
+      if (devMode) {
         return output.css;
       }
 
@@ -27,11 +28,11 @@ const plugins = [
 
 const config = {
   entryPoints: ['./src/index.js'],
-  outdir: mode === 'dev' ? './dev' : './dist',
+  outdir: devMode ? './dev' : './dist',
   bundle: true,
   format: 'esm',
   target: 'es6',
-  minify: mode !== 'dev',
+  minify: !devMode,
   logLevel: 'info',
   plugins,
 };
@@ -50,4 +51,4 @@ const serve = async () => {
   console.log(`Serving at ${chalk.green(`http://${server.host}:${server.port}`)}`);
 };
 
-mode === 'dev' ? serve() : build();
+devMode ? serve() : build();
