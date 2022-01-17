@@ -22,6 +22,7 @@
     "postinstall": "npx browserslist@latest --update-db"
   },
   "devDependencies": {
+    "browserslist": "^4.19.1",
     "chalk": "^5.0.0",
     "esbuild": "^0.14.11",
     "esbuild-plugin-inline-import": "^1.0.1",
@@ -29,5 +30,13 @@
     "postcss-variable-compress": "^0.2.5",
     "sass": "^1.47.0"
   },
-  "dependencies": {}
+  "browserslist": [
+    "last 4 chrome major versions",
+    "last 4 edge major versions",
+    "last 4 firefox major versions",
+    "last 1 and_chr major versions",
+    "last 1 and_ff major versions",
+    "last 4 safari major versions",
+    "last 4 ios_saf major versions"
+  ]
 }

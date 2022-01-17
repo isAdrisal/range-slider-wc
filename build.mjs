@@ -1,9 +1,12 @@
+import browserslist from 'browserslist';
+import chalk from 'chalk';
 import esbuild from 'esbuild';
 import inlineImportPlugin from 'esbuild-plugin-inline-import';
-import sass from 'sass';
 import postcss from 'postcss';
 import postcssVariableCompress from 'postcss-variable-compress';
-import chalk from 'chalk';
+import sass from 'sass';
+
+import resolveTargets from './utils/resolve-targets.mjs';
 
 const mode = process.argv.find((arg) => arg.includes('--mode'))?.split('=')[1];
 const devMode = mode === 'dev';
@@ -24,14 +27,16 @@ const plugins = [
   }),
 ];
 
+const target = resolveTargets(browserslist());
+
 const config = {
   entryPoints: ['./src/index.js'],
   outdir: devMode ? './dev' : './dist',
   bundle: true,
   format: 'esm',
-  target: 'es6',
   minify: !devMode,
   logLevel: 'info',
+  target,
   plugins,
 };
 
