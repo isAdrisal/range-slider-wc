@@ -7,50 +7,62 @@ export default customElements.define(
       return ['disabled'];
     }
 
+    #min;
+    #max;
+    #step;
+    #disabled;
+    #valueMin;
+    #valueMax;
+    #midpoint;
+    #container;
+    #minInput;
+    #maxInput;
+    #inputs;
+
     get min() {
-      return this._min;
+      return this.#min;
     }
 
     set min(value) {
       const valueAsNumber = Number(value);
-      this._min = valueAsNumber;
+      this.#min = valueAsNumber;
       this.setAttribute('min', valueAsNumber);
-      this.#setInputProperty(this._minInput, 'min', valueAsNumber);
-      this.#setInputProperty(this._maxInput, 'min', valueAsNumber);
+      this.#setInputProperty(this.#minInput, 'min', valueAsNumber);
+      this.#setInputProperty(this.#maxInput, 'min', valueAsNumber);
     }
 
     get max() {
-      return this._max;
+      return this.#max;
     }
 
     set max(value) {
       const valueAsNumber = Number(value);
-      this._max = valueAsNumber;
+      this.#max = valueAsNumber;
       this.setAttribute('max', valueAsNumber);
-      this.#setInputProperty(this._minInput, 'max', valueAsNumber);
-      this.#setInputProperty(this._maxInput, 'max', valueAsNumber);
+      this.#setInputProperty(this.#minInput, 'max', valueAsNumber);
+      this.#setInputProperty(this.#maxInput, 'max', valueAsNumber);
     }
 
     get step() {
-      return this._step;
+      return this.#step;
     }
 
     set step(value) {
-      this._step = value;
+      this.#step = value;
       this.setAttribute('step', value);
-      this.#setInputProperty(this._minInput, 'step', value);
-      this.#setInputProperty(this._maxInput, 'step', value);
+      this.#setInputProperty(this.#minInput, 'step', value);
+      this.#setInputProperty(this.#maxInput, 'step', value);
     }
 
     get disabled() {
-      return this._disabled;
+      return this.#disabled;
     }
 
     set disabled(value) {
       if (typeof value !== 'boolean') return;
-      this._disabled = value;
-      this._minInput.disabled = value;
-      this._maxInput.disabled = value;
+      this.#disabled = value;
+      this.#minInput.disabled = value;
+      this.#maxInput.disabled = value;
       if (value === true) {
         const disabledAttr = this.getAttribute('disabled');
         if (disabledAttr !== '' && disabledAttr !== 'true') {
@@ -62,7 +74,7 @@ export default customElements.define(
     }
 
     get valueMin() {
-      return this._valueMin;
+      return this.#valueMin;
     }
 
     set valueMin(value) {
@@ -71,9 +83,9 @@ export default customElements.define(
       if (valueAsNumber < this.min) {
         valueAsNumber = this.min;
       }
-      this._valueMin = valueAsNumber;
+      this.#valueMin = valueAsNumber;
       this.setAttribute('valueMin', valueAsNumber);
-      this.#setInputProperty(this._minInput, 'value', valueAsNumber);
+      this.#setInputProperty(this.#minInput, 'value', valueAsNumber);
       this.midpoint = (this.valueMax - this.valueMin) / 2 + this.valueMin;
 
       if (this.ready) {
@@ -92,7 +104,7 @@ export default customElements.define(
     }
 
     get valueMax() {
-      return this._valueMax;
+      return this.#valueMax;
     }
 
     set valueMax(value) {
@@ -101,9 +113,9 @@ export default customElements.define(
       if (valueAsNumber > this.max) {
         valueAsNumber = this.max;
       }
-      this._valueMax = valueAsNumber;
+      this.#valueMax = valueAsNumber;
       this.setAttribute('valueMax', valueAsNumber);
-      this.#setInputProperty(this._maxInput, 'value', valueAsNumber);
+      this.#setInputProperty(this.#maxInput, 'value', valueAsNumber);
       this.midpoint = (this.valueMax - this.valueMin) / 2 + this.valueMin;
 
       if (this.ready) {
@@ -122,11 +134,11 @@ export default customElements.define(
     }
 
     get midpoint() {
-      return this._midpoint;
+      return this.#midpoint;
     }
 
     set midpoint(value) {
-      this._midpoint = Number(value);
+      this.#midpoint = Number(value);
     }
 
     constructor() {
@@ -158,10 +170,10 @@ export default customElements.define(
     }
 
     #init = () => {
-      this._container = this.shadowRoot.querySelector('[part="container"]');
-      this._minInput = this.shadowRoot.querySelector('[data-input="min"]');
-      this._maxInput = this.shadowRoot.querySelector('[data-input="max"]');
-      this._inputs = [this._minInput, this._maxInput];
+      this.#container = this.shadowRoot.querySelector('[part="container"]');
+      this.#minInput = this.shadowRoot.querySelector('[data-input="min"]');
+      this.#maxInput = this.shadowRoot.querySelector('[data-input="max"]');
+      this.#inputs = [this.#minInput, this.#maxInput];
 
       const minAttr = this.getAttribute('min');
       const maxAttr = this.getAttribute('max');
@@ -192,7 +204,7 @@ export default customElements.define(
       const setDisabled = disabledAttr === '' || disabledAttr === 'true';
       this.disabled = setDisabled;
 
-      this._inputs.forEach((input, index) => {
+      this.#inputs.forEach((input, index) => {
         this.#setInputProperty(input, 'min', this.min);
         this.#setInputProperty(input, 'max', this.max);
         this.#setInputProperty(input, 'step', this.step);
@@ -203,8 +215,8 @@ export default customElements.define(
         input.addEventListener('touchstart', this.#handlePointerDown);
       });
 
-      this._container.addEventListener('mousedown', this.#handleSyntheticTrackClick);
-      this._container.addEventListener('click', this.#handleSyntheticTrackClick);
+      this.#container.addEventListener('mousedown', this.#handleSyntheticTrackClick);
+      this.#container.addEventListener('click', this.#handleSyntheticTrackClick);
       this.addEventListener('mouseup', this.#handlePointerUp);
       this.addEventListener('touchend', this.#handlePointerUp);
 
@@ -273,7 +285,7 @@ export default customElements.define(
       const midpointRatio = (this.midpoint - this.min) / (this.max - this.min);
       const newValue = offsetRatio * (this.max - this.min) + this.min;
       const isMinInput = offsetRatio < midpointRatio;
-      const target = isMinInput ? this._minInput : this._maxInput;
+      const target = isMinInput ? this.#minInput : this.#maxInput;
 
       this.#setInputProperty(target, 'value', newValue);
       const detail = {
@@ -295,10 +307,10 @@ export default customElements.define(
 
     #handlePointerUp = (evt) => {
       this.blur();
-      this._minInput.blur();
-      this._maxInput.blur();
-      this.valueMin = this._minInput.valueAsNumber;
-      this.valueMax = this._maxInput.valueAsNumber;
+      this.#minInput.blur();
+      this.#maxInput.blur();
+      this.valueMin = this.#minInput.valueAsNumber;
+      this.valueMax = this.#maxInput.valueAsNumber;
     };
   }
 );
