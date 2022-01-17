@@ -1,6 +1,8 @@
 # Source
 build.mjs
+dev
 src
+utils
 
 # Node
 node_modules
