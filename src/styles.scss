@@ -3,94 +3,94 @@
   margin: 2px;
   width: 129px;
   -webkit-tap-highlight-color: transparent;
-  --track-height: 0.5rem;
-  --thumb-diameter: 1rem;
-  --track-color: rgb(239, 239, 239);
-  --track-color-active: rgb(229, 229, 229);
-  --track-color-alt: var(--track-color);
-  --track-color-alt-focus: var(--track-color-active);
-  --track-color-disabled: rgb(250, 250, 250);
-  --progress-color: rgb(0, 117, 255);
-  --progress-color-active: rgb(0, 92, 200);
-  --progress-color-disabled: rgb(203, 203, 203);
-  --thumb-color: rgb(0, 117, 255);
-  --thumb-color-active: rgb(0, 92, 200);
-  --thumb-color-disabled: rgb(203, 203, 203);
-  --thumb-halo-color: rgba(0, 92, 200, 0.1);
-  --thumb-halo-size: 0.425rem;
-  --focus-outline: 1px solid black;
-  --focus-outline-offset: 0px;
-  --transition-duration: 100ms;
-  --transition-timing-function: ease-in;
-  --cursor: pointer;
-  --thumb-pointer-events: all;
+  --_track-height: var(--track-height, 0.5rem);
+  --_thumb-diameter: var(--thumb-diameter, 1rem);
+  --_track-color: var(--track-color, rgb(239, 239, 239));
+  --_track-color-active: var(--track-color-active, rgb(229, 229, 229));
+  --_track-color-alt: var(--_track-color);
+  --_track-color-alt-focus: var(--_track-color-active);
+  --_track-color-disabled: var(--track-color-disabled, rgb(250, 250, 250));
+  --_progress-color: var(--progress-color, rgb(0, 117, 255));
+  --_progress-color-active: var(--progress-color-active, rgb(0, 92, 200));
+  --_progress-color-disabled: var(--progress-color-disabled, rgb(203, 203, 203));
+  --_thumb-color: var(--thumb-color, rgb(0, 117, 255));
+  --_thumb-color-active: var(--thumb-color-active, rgb(0, 92, 200));
+  --_thumb-color-disabled: var(--thumb-color-disabled, rgb(203, 203, 203));
+  --_thumb-halo-color: var(--thumb-halo-color, rgba(0, 92, 200, 0.1));
+  --_thumb-halo-size: var(--thumb-halo-size, 0.425rem);
+  --_focus-outline: var(--focus-outline, 1px solid black);
+  --_focus-outline-offset: var(--focus-outline-offset, 0px);
+  --_transition-duration: var(--transition-duration, 100ms);
+  --_transition-timing-function: var(--transition-timing-function, ease-in);
+  --_cursor: pointer;
+  --_thumb-pointer-events: all;
 }
 
 :host([disabled]) {
-  --cursor: default;
+  --_cursor: default;
   pointer-events: none;
-  --thumb-pointer-events: none;
-  --track-color: var(--track-color-disabled);
-  --progress-color: var(--progress-color-disabled);
-  --thumb-color: var(--thumb-color-disabled);
+  --_thumb-pointer-events: none;
+  --_track-color: var(--_track-color-disabled);
+  --_progress-color: var(--_progress-color-disabled);
+  --_thumb-color: var(--_thumb-color-disabled);
 }
 
 @mixin track($fill: 0) {
   box-sizing: border-box;
   border: none;
   width: 100%;
-  height: var(--track-height);
-  background: var(--track-color);
-  border-radius: calc(var(--track-height) / 2);
+  height: var(--_track-height);
+  background: var(--_track-color);
+  border-radius: calc(var(--_track-height) / 2);
 
   @if $fill == 1 {
-    background: linear-gradient(var(--progress-color), var(--progress-color))
+    background: linear-gradient(var(--_progress-color), var(--_progress-color))
       0 /
       var(--fill-width)
       100%
       no-repeat
-      var(--track-color);
+      var(--_track-color);
   }
 }
 
 @mixin fill() {
-  height: var(--track-height);
-  background: var(--progress-color);
-  border-radius: calc(var(--track-height) / 2);
+  height: var(--_track-height);
+  background: var(--_progress-color);
+  border-radius: calc(var(--_track-height) / 2);
 }
 
 @mixin track-active() {
   [data-input="min"] {
-    --progress-color: var(--track-color-active);
+    --_progress-color: var(--_track-color-active);
   }
 
   [data-input="max"] {
-    --track-color: var(--track-color-active);
-    --progress-color: var(--progress-color-active);
+    --_track-color: var(--_track-color-active);
+    --_progress-color: var(--_progress-color-active);
   }
 }
 
 @mixin thumb() {
   box-sizing: border-box;
   border: none;
-  width: var(--thumb-diameter);
-  height: var(--thumb-diameter);
+  width: var(--_thumb-diameter);
+  height: var(--_thumb-diameter);
   border-radius: 50%;
-  background: var(--thumb-color);
+  background: var(--_thumb-color);
   box-shadow: var(--thumb-shadow);
-  transition: all var(--transition-duration) var(--transition-timing-function);
-  pointer-events: var(--thumb-pointer-events);
+  transition: all var(--_transition-duration) var(--_transition-timing-function);
+  pointer-events: var(--_thumb-pointer-events);
 }
 
 @mixin thumb-active() {
-  --thumb-color: var(--thumb-color-active);
-  --thumb-shadow: 0px 0px 0px var(--thumb-halo-size) var(--thumb-halo-color);
+  --_thumb-color: var(--_thumb-color-active);
+  --thumb-shadow: 0px 0px 0px var(--_thumb-halo-size) var(--_thumb-halo-color);
 }
 
 [part="container"] {
   display: grid;
   width: 100%;
-  cursor: var(--cursor);
+  cursor: var(--_cursor);
 
   @media (hover: hover) {
     &:hover {
@@ -113,24 +113,24 @@ input[type="range"] {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: var(--thumb-diameter);
+  height: var(--_thumb-diameter);
   max-width: 100%;
   background: transparent;
   font: 1em/1 arial, sans-serif;
   outline: none;
-  cursor: var(--cursor);
+  cursor: var(--_cursor);
   pointer-events: none;
 
   &:focus:not(:hover) {
     @media (hover: hover) {
-      outline: var(--focus-outline);
-      outline-offset: var(--outline-offset);
+      outline: var(--_focus-outline);
+      outline-offset: var(--_focus-outline-offset);
     }
   }
 
   --range: calc(var(--max) - var(--min));
   --ratio: calc((var(--value) - var(--min)) / var(--range));
-  --fill-width: calc(0.5 * var(--thumb-diameter) + var(--ratio) * (100% - var(--thumb-diameter)));
+  --fill-width: calc(0.5 * var(--_thumb-diameter) + var(--ratio) * (100% - var(--_thumb-diameter)));
 
   &::-webkit-slider-runnable-track {
     @include track(1);
@@ -150,7 +150,7 @@ input[type="range"] {
   }
 
   &::-webkit-slider-thumb {
-    margin-top: calc(0.5 * (var(--track-height) - var(--thumb-diameter)));
+    margin-top: calc(0.5 * (var(--_track-height) - var(--_thumb-diameter)));
     @media (hover: hover) {
       &:hover {
         @include thumb-active;
@@ -180,8 +180,8 @@ input[type="range"] {
 
   &[data-input="min"] {
     z-index: 2;
-    --progress-color: var(--track-color-alt);
-    --track-color: transparent;
+    --_progress-color: var(--_track-color-alt);
+    --_track-color: transparent;
   }
 
   &[data-input="max"][data-at-min="true"] {
