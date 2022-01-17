@@ -15,11 +15,9 @@ const plugins = [
       const compiled = sass.compile(args.path, {style: 'compressed'});
       const output = compiled.css;
 
-      if (devMode) {
-        return output;
-      }
+      if (devMode) return output;
 
-      const postcssPlugins = [postcssVariableCompress([(name) => !name.includes('_')])];
+      const postcssPlugins = [postcssVariableCompress([(name) => !name.startsWith('--_')])];
       const result = await postcss(postcssPlugins).process(output, {from: undefined});
       return result.css;
     },
