@@ -19,8 +19,7 @@
     "build": "yarn clean && yarn bundle",
     "deploy": "yarn build && yarn publish",
     "bundle": "node build.mjs",
-    "clean": "rm -rf dist/",
-    "postinstall": "npx browserslist@latest --update-db"
+    "clean": "rm -rf dist/"
   },
   "devDependencies": {
     "browserslist": "^4.19.1",
