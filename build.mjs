@@ -41,7 +41,7 @@ const config = {
 const configTranspiled = {
   ...config,
   target,
-  outfile: devMode ? './dev/index.transpiled.js' : './dist/index.transpiled.js',
+  outfile: devMode ? './dev/index.compat.js' : './dist/index.compat.js',
 };
 
 const configModern = {

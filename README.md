@@ -128,3 +128,13 @@ An example stylesheet is shown below with default values:
   --transition-timing-function: ease-in;
 }
 ```
+
+## Compatibility
+
+The main `index.js` export is written using very modern JS syntax including private Class fields and methods. When importing this package into a bundler such as Webpack or Parcel (and others), the transpilation will be handled by your bundler for your supported browser targets.
+
+The `browser` export, `index.compat.js` is pre-transpiled down to the browser versions shown below:
+
+| chrome | edge | firefox | safari | android chrome | android firefox | iOS  |
+| :----: | :--: | :-----: | :----: | :------------: | :-------------: | :--: |
+|   94   |  94  |   93    |   12   |       97       |       95        | 12.0 |
