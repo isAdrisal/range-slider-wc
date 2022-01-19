@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "description": "A dependency-free, two-thumb range input slider built with Web Components.",
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "browser": "./dist/index.compat.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/isAdrisal/range-slider-wc.git"

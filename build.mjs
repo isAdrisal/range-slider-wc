@@ -31,6 +31,7 @@ const target = resolveTargets(browserslist());
 
 const config = {
   entryPoints: ['./src/index.js'],
+  outdir: devMode ? './dev' : './dist',
   bundle: true,
   format: 'esm',
   minify: !devMode,
@@ -38,25 +39,12 @@ const config = {
   plugins,
 };
 
-const configTranspiled = {
+const configDev = {
   ...config,
   target,
-  outfile: devMode ? './dev/index.compat.js' : './dist/index.compat.js',
 };
 
-const configModern = {
-  ...config,
-  outfile: devMode ? './dev/index.js' : './dist/index.js',
-};
-
-const build = async () => {
-  try {
-    const buildFiles = await Promise.all([esbuild.build(configTranspiled), esbuild.build(configModern)]);
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-};
+const build = () => esbuild.build(config).catch(() => process.exit(1));
 
 const serve = async () => {
   const server = await esbuild.serve(
@@ -65,7 +53,7 @@ const serve = async () => {
       onRequest: (r) =>
         console.log(`${r.remoteAddress} - ${chalk.yellow(`"${r.method} ${r.path}"`)} ${r.status} [${r.timeInMS}ms]`),
     },
-    configModern
+    configDev
   );
   console.log(`Serving at ${chalk.green(`http://${server.host}:${server.port}`)}`);
 };
